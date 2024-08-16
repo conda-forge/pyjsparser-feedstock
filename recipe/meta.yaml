@@ -2,35 +2,39 @@
 {% set version = "2.7.1" %}
 
 package:
-  name: "{{ name|lower }}"
-  version: "{{ version }}"
+  name: {{ name|lower }}
+  version: {{ version }}
 
 source:
-  url: "https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz"
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/pyjsparser-{{ version }}.tar.gz
   sha256: be60da6b778cc5a5296a69d8e7d614f1f870faf94e1b1b6ac591f2ad5d729579
 
 build:
   noarch: python
-  number: 0
-  script: "{{ PYTHON }} -m pip install . -vv"
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  number: 1
 
 requirements:
   host:
+    - python >=3.8
     - pip
-    - python
   run:
-    - python
+    - python >=3.8
 
 test:
   imports:
     - pyjsparser
+  commands:
+    - pip check
+  requires:
+    - pip
 
 about:
-  home: "https://github.com/PiotrDabkowski/pyjsparser"
+  home: https://github.com/PiotrDabkowski/pyjsparser
+  summary: Fast javascript parser (based on esprima.js)
   license: MIT
   license_family: MIT
   license_file: LICENSE
-  summary: "Fast javascript parser (based on esprima.js)"
   doc_url: https://github.com/PiotrDabkowski/pyjsparser
   dev_url: https://github.com/PiotrDabkowski/pyjsparser
 
@@ -38,3 +42,4 @@ extra:
   recipe-maintainers:
     - dschreij
     - smathot
+    - xylar
